@@ -1,0 +1,75 @@
+In our social networking projects we often need to match incoming textual entities (posts, messages, profiles etc) against a predefined set of patterns to detect different types of user activities. To do that we use a pattern matcher Java class which implements the interface shown below. It is possible to add patterns to it and check any text against all the patterns added. The checking is done with a simple case sensitive substring matching.
+
+The contest's challenge is to create a possibly most efficient implementation of the IPatternMatcher interface. It should be optimized for the best performance of the checkText method. The fastest implementation wins.
+
+Pattern matcher interface
+interface IPatternMatcher {
+ 
+  /** 
+   * Adds a new pattern to the matcher. Does nothing if such pattern already exists 
+   * @param pattern - any string of 3 to 300 symbols
+   */
+  void addPattern(String pattern);
+ 
+  /** 
+   * Checks if there is at least one pattern can be found in the text.
+   * @param text - matched against patterns. Any string of 3 to 300 symbols.
+   * @return first found pattern or null if there are no patterns found in the text 
+   */
+  String checkText(String text);
+}
+
+Pattern matcher usage example
+// create pattern matcher
+IPatternMatcher patternMatcher = new PatternMatcher();
+ 
+// add patterns here (real test has 25K patterns)
+patternMatcher.addPattern("iPhone");
+patternMatcher.addPattern("youtube.com/watch");
+patternMatcher.addPattern("profil");
+patternMatcher.addPattern("Заходи, сюда");
+ 
+// Check texts against patterns here (real test has 1 million texts)
+String p1 = patternMatcher.checkText("What type of iPhone do you have?");
+String p2 = patternMatcher.checkText("Hi, take a look here: https://www.youtube.com/watch?v=RC_6skf1-t");
+String p3 = patternMatcher.checkText("Salut est-ce que tu peux aimer ma photo de profil?");
+String p4 = patternMatcher.checkText("Привет! У нас сегодня акция. Заходи, сюда узнаешь больше!");
+String p5 = patternMatcher.checkText("Yanıtını Beğen Hediye Yolluyor Dene Gör :)");
+ 
+// this line prints: "p1: iPhone p2: youtube.com/watch p3: profil p4: Заходи, сюда p5: null"
+System.out.printf("p1: %s p2: %s p3: %s p4: %s p5: %s\n", p1, p2, p3, p4, p5);
+
+Additional terms
+
+    Please download the following ZIP file with initial project setup. The ZIP file already contains empty implementation - patternmatcher.PatternMatcher. To fulfill the task you should provide your implementation of the PatternMatcher's methods. (Please do not rename the class since our test relies on its current name)
+    The resulting implementation should be in the same form as the initial ZIP file, just it should contain your implementation plus additional libraries if they are used
+    The number of patterns inside IPatternMatcher can be up to 25K
+    Pattern length is from 3 to 300 symbols
+    Matched text length is from 3 to 300 symbols
+    Performance of addPattern method is not critical (just it should be possible to add 25K patterns in ~10-20 seconds or less)
+    Only Java 7 compliant language is accepted for implementation (no Groovy, Scala, Jython etc)
+    You are allowed to use only open-source Java libraries. All the libraries should be bundled inside lib directory of the resulting ZIP file together with their source code
+    Only Pure Java implementations and third party libraries are allowed (No native code).
+    Implementation must not use any I/O (file and network operations). It should operate only on Java Heap memory.
+    Implementation must not create own threads. (Everything should be done inside a caller thread)
+    Implementation must not use more than 512MB of heap memory (JVM -Xmx512 option will be set when executing test)
+    Additionally -server option will be set on the running JVM
+
+Implementation evaluation
+
+We have an automated test evaluating pattern checker's functional correctness and performance. Each implementation will be executed through this test.
+
+    The test adds ~25K patterns using addPattern calls and then performs ~1 million checkText executions against different textual strings
+    Most performance efficient implementation is selected.
+    Preliminary JVM code heating will be performed before the measured checkText executions. The test calls checkText method   at least 15000 times with random patterns during the heating.
+    Performance is evaluated only when functional tests are passed correctly. Incorrect implementations are out of the game.
+    Additionally we look at the approaches used when solving the task. We'll discuss most interesting solutions in our next JUG meeting.
+    The test will be executed using Oracle Java SE Development Kit 7 u21 JVM
+
+Implementation submission and contest deadline
+
+Please send your implementations as ZIP file attachments to the following e-mail address: jug@rubylight.com before the 31st of May 2013. The ZIP file should in the form described in "Additional tterms" section.
+
+Feel free to ask any questions regarding the subject by adding comments below.
+
+We are looking forward to your solutions! Good luck!
